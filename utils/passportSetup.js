@@ -18,7 +18,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/redirect",
+      callbackURL: process.env.GOOGLE_REDIRECT_URI || "/auth/google/redirect",
     },
     async (accessToken, refreshToken, profile, done) => {
       const currentUser = await User.findOne({ googleId: profile.id });
@@ -42,7 +42,8 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: "/auth/facebook/redirect",
+      callbackURL:
+        process.env.FACEBOOK_REDIRECT_URI || "/auth/facebook/redirect",
       profileFields: ["id", "displayName", "photos", "email"],
     },
     async (accessToken, refreshToken, profile, done) => {

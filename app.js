@@ -10,6 +10,7 @@ require("dotenv").config({ path: "./config.env" });
 const dbConnection = require("./config/dbConnection");
 const authRouter = require("./routes/Auth");
 const profileRouter = require("./routes/Profile");
+const legalRouter = require("./routes/Legal");
 const AppError = require("./utils/AppError");
 const globalError = require("./middleware/errorHandlerMW");
 require("./utils/passportSetup");
@@ -25,6 +26,7 @@ app.use(
       "http://localhost:3000",
       "http://127.0.0.1:3000",
       /https?:\/\/[a-z0-9-]+-.*-vercel\.app$/,
+      "https://simple-authentication-iota.vercel.app",
     ],
     credentials: true,
   })
@@ -59,6 +61,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/profile", profileRouter);
+app.use("/legal", legalRouter);
 
 app.use((req, res, nxt) => {
   return nxt(new AppError(`Can not find this route: ${req.originalUrl}`, 404));
